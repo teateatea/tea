@@ -277,7 +277,7 @@ TeaChatHandler:
     # IF THERE IS ONE OR FEWER PLAYERS ONLINE THAT HAVE MOD PERMS, THEN %PLAYER% IS ALONE {
     # LET THEM KNOW THEY ARE ALONE }
     - if <server.list_online_players.filter[has_permission[towny.chat.admin]].size> <= 1 {
-      - narrate "You are alone in this channel!" targets:<player>
+      - narrate "<gold><&lb>Chat<&rb> <yellow>You are alone in this channel!" targets:<player>
     }
     # USE RELEVANT MOD CHAT FORMAT TO SEND MESSAGE TO ALL PLAYERS ONLINE THAT HAVE MOD PERMS
     - ^determine passively "FORMAT:WorldAdminFormat"
