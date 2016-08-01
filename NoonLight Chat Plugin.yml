@@ -1,9 +1,14 @@
 NoonLightChatHandler:
   type: world
-  debug: false
+  debug: true
   Default Constants:
     DefaultWorld: world
     SecondaryWorld: dream
+    Loginerror: <gold><&lb>Dev<&rb><yellow> Flag error in <white>'ChatStatus:<player.flag[ChatStatus]||Null Chat>'<yellow>. Join a channel.
+    Loginglobal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Global Chat
+    Loginlocal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Local Chat
+    Loginsupport: <gold><&lb>Chat<&rb><dark_green> You talking in <white>Support Chat
+
   events:
     # ON PLAYER LOGIN: ---------------------------------------------------------------------------
     on player login:
@@ -13,6 +18,8 @@ NoonLightChatHandler:
     - ^if <player.flag[ChatStatus]||null> == null {
       - ^flag player ChatStatus:global
     }
+  #  - define LoginStatus <player.
+    - narrate "<script.constant[Login<player.flag[ChatStatus]>]||<script.constant[Loginerror]>>" targets:<player>
 
     # ON PLAYER CHATS: ---------------------------------------------------------------------------
     on player chats:
