@@ -4,6 +4,7 @@ NoonLightChatHandler:
   Default Constants:
     DefaultWorld: world
     SecondaryWorld: dream
+    ChatStatusList: global|local|support|tmod|mod|admin
     Loginerror: <gold><&lb>Dev<&rb><yellow> Flag error in <white>'ChatStatus:<player.flag[ChatStatus]||Null Chat>'<yellow>. Join a channel.
     Loginglobal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Global Chat
     Loginlocal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Local Chat
