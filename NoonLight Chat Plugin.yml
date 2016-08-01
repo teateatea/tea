@@ -586,6 +586,7 @@ SPYCommand:
       - narrate "<green>[<gray>SPY<green>] <gray>ON <dark_gray><italic>- With great power comes great responsibility." targets:<player>
       - narrate "<green>[<gray>SPY<green>] <gray>ON <dark_gray><italic>- Please enjoy responsibly." targets:<player>
       - narrate "<green>[<gray>SPY<green>] <gray>ON <dark_gray><italic>- Knowledge is power." targets:<player>
+      - narrate "<green>[<gray>SPY<green>] <gray>ON <dark_gray><italic><&nl>Knowing what<&nl>Thou knowest not<&nl>Is in a sense<&nl>Omniscience." targets:<player>
     }
     - flag <player> SocialSpy:true
   }
