@@ -457,17 +457,17 @@ globalChatOFFCommand:
     # ELSE (THEY HAVEN'T LEFT YET) {
       # LET THEM LEAVE AND TELL THEM }
   - if <player.flag[GlobalChatOff]||false> == true {
-    - narrate "<gold><&lb>Chat<&rb><dark_green> You have already left <white>global chat" targets:<player>
+    - narrate "<gold><&lb>Chat<&rb><dark_green> You have already left <white>Global Chat" targets:<player>
   }
   else {
-    - narrate "<gold><&lb>Chat<&rb> <dark_green>You have left <white>global chat" targets:<player>
+    - narrate "<gold><&lb>Chat<&rb> <dark_green>You have left <white>Global Chat" targets:<player>
     - flag <player> GlobalChatOff:true
   }
 
     # IF %PLAYER% WAS TALKING IN GLOBAL {
       # SWITCH THEM OUT TO LOCAL }
   - if <player.flag[ChatStatus]||local> == global {
-    - ^narrate "<gold><&lb>Chat<&rb><dark_green> You have been switched to <white>local"
+    - ^narrate "<gold><&lb>Chat<&rb><dark_green> You have been switched to <white>Local"
     - flag <player> ChatStatus:local
   }
 
@@ -575,7 +575,7 @@ SPYCommand:
   name: spy
   description: spy
   usage: /spy
-  permission: spy.permission.node
+  permission: chat.spy
   permission message: <gold>[Dev] <dark_red>Please add the '<gold><permission><dark_red>' permission node!
   allowed help:
   - determine <player.is_op||<context.server>>
