@@ -1,6 +1,6 @@
 NoonLightChatHandler:
   type: world
-  debug: true
+  debug: false
   Default Constants:
     DefaultWorld: world
     SecondaryWorld: dream
@@ -248,7 +248,7 @@ NoonLightChatHandler:
     # /global (<text>)
 globalMuteCommand:
   type: command
-  debug: false
+  debug: true
   name: gmute
   description: globalmute
   usage: /g <&lt>Hello World<&gt>
@@ -262,9 +262,41 @@ globalMuteCommand:
   tab complete:
   - determine <server.list_online_players.parse[name].filter[starts_with[<context.args.last>]]>
   script:
+  - if <c.args.get[1]||null> == null {
+    - ^narrate "<gold><&lb>Chat<&rb> <green>/gmute <yellow>player <green>(true)/false (forever)/time in minutes"
+    - queue clear
+    }
   - define player <c.args.get[1]>
-  - narrate "<&6>%player% <&c>muted <c.args.get[2]||true>"
-  - flag <p@%player%> gmute:<c.args.get[2]||true> duration:<c.args.get[3]||>
+  - if <c.args.size> >= 2 {
+    - if <c.args.last.as_int||null> == <c.args.last> {
+      - define duration <c.args.last>
+      }
+      else {
+      - define duration forever
+      }
+    - if <li@true|false.contains[<c.args.get[2]>]> == true {
+      - define activation <c.args.get[2]>
+      }
+      else {
+      - define activation true
+      }
+    }
+    else {
+    - define duration forever
+    - define activation true
+    }
+    
+  - if %duration% == forever {
+    - flag <p@%player%> gmute:%activation%
+    - ^narrate "<t[%activation%]:<yellow>%player% has been muted! <p@%player%.flag[gmute].expiration.formatted.replace[forever].with[Ongoing!]||Ongoing!>||<green>%player% has been unmuted!>" targets:<server.list_online_players.filter[has_permission[chat.tmod]]> format:WorldModFormat
+
+    }
+    else {
+
+    - flag <p@%player%> gmute:%activation% duration:%duration%
+    - ^narrate "<t[%activation%]:<yellow>%player% has been muted! <p@%player%.flag[gmute].expiration.formatted.replace[forever].with[Ongoing!]||Ongoing!>||<green>%player% has been unmuted!>" targets:<server.list_online_players.filter[has_permission[chat.tmod]]> format:WorldModFormat
+
+    }
   
   
 globalChatCommand:
