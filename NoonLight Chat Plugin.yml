@@ -1,10 +1,9 @@
-TeaChatHandler:
+NoonLightChatHandler:
   type: world
   debug: false
   Default Constants:
     DefaultWorld: world
     SecondaryWorld: dream
-
   events:
     # ON PLAYER LOGIN: ---------------------------------------------------------------------------
     on player login:
