@@ -9,6 +9,9 @@ NoonLightChatHandler:
     Loginglobal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Global Chat
     Loginlocal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Local Chat
     Loginsupport: <gold><&lb>Chat<&rb><dark_green> You talking in <white>Support Chat
+    Logintmod: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>T-Mod Chat
+    Loginmod: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Mod Chat
+    Loginadmin: <gold><&lb>Chat<&rb><dark_green> You talking in <white>Admin Chat
 
   events:
     # ON PLAYER LOGIN: ---------------------------------------------------------------------------
@@ -41,7 +44,7 @@ NoonLightChatHandler:
     # CHAT WORLD global: ----------------------------------------------------------------------------
   chat_world_global:
     - if <player.flag[gmute]||false> == true {
-      - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from Global Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
+      - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from all Public Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
       - ^determine passively cancelled
       - ^queue clear
     }
@@ -77,7 +80,7 @@ NoonLightChatHandler:
     # CHAT WORLD support: ----------------------------------------------------------------------------
   chat_world_support:
     - if <player.flag[gmute]||false> == true {
-      - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from Support Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
+      - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from all Public Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
       - ^determine passively cancelled
       - ^queue clear
     }
@@ -405,7 +408,7 @@ SupportChatCommand:
   script:
   - if <player.flag[gmute]||false> == true {
     - ^determine passively cancelled
-    - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from Support Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
+    - ^narrate "<gold><&lb>Chat<&rb> <red>You have been muted from all Public Chat (<player.flag[gmute].expiration.formatted.replace[forever].with[Ongoing]||Ongoing>)"
     - ^queue clear
     }
   - if <server.flag[gmute]||false> == true {
