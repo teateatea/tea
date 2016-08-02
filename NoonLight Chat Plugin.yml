@@ -4,6 +4,12 @@ NoonLightChatHandler:
   Default Constants:
     DefaultWorld: world
     SecondaryWorld: dream
+    ChatStatusList: global|local|support|tmod|mod|admin
+    Loginerror: <gold><&lb>Dev<&rb><yellow> Flag error in <white>'ChatStatus:<player.flag[ChatStatus]||Null Chat>'<yellow>. Join a channel.
+    Loginglobal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Global Chat
+    Loginlocal: <gold><&lb>Chat<&rb><dark_green> You are talking in <white>Local Chat
+    Loginsupport: <gold><&lb>Chat<&rb><dark_green> You talking in <white>Support Chat
+
   events:
     # ON PLAYER LOGIN: ---------------------------------------------------------------------------
     on player login:
@@ -13,6 +19,8 @@ NoonLightChatHandler:
     - ^if <player.flag[ChatStatus]||null> == null {
       - ^flag player ChatStatus:global
     }
+  #  - define LoginStatus <player.
+    - narrate "<script.constant[Login<player.flag[ChatStatus]>]||<script.constant[Loginerror]>>" targets:<player>
 
     # ON PLAYER CHATS: ---------------------------------------------------------------------------
     on player chats:
@@ -240,7 +248,7 @@ NoonLightChatHandler:
     # /global (<text>)
 globalMuteCommand:
   type: command
-  debug: false
+  debug: true
   name: gmute
   description: globalmute
   usage: /g <&lt>Hello World<&gt>
@@ -254,9 +262,41 @@ globalMuteCommand:
   tab complete:
   - determine <server.list_online_players.parse[name].filter[starts_with[<context.args.last>]]>
   script:
+  - if <c.args.get[1]||null> == null {
+    - ^narrate "<gold><&lb>Chat<&rb> <green>/gmute <yellow>player <green>(true)/false (forever)/time in minutes"
+    - queue clear
+    }
   - define player <c.args.get[1]>
-  - narrate "<&6>%player% <&c>muted <c.args.get[2]||true>"
-  - flag <p@%player%> gmute:<c.args.get[2]||true> duration:<c.args.get[3]||>
+  - if <c.args.size> >= 2 {
+    - if <c.args.last.as_int||null> == <c.args.last> {
+      - define duration <c.args.last>
+      }
+      else {
+      - define duration forever
+      }
+    - if <li@true|false.contains[<c.args.get[2]>]> == true {
+      - define activation <c.args.get[2]>
+      }
+      else {
+      - define activation true
+      }
+    }
+    else {
+    - define duration forever
+    - define activation true
+    }
+    
+  - if %duration% == forever {
+    - flag <p@%player%> gmute:%activation%
+    - ^narrate "<t[%activation%]:<yellow>%player% has been muted! <p@%player%.flag[gmute].expiration.formatted.replace[forever].with[Ongoing!]||Ongoing!>||<green>%player% has been unmuted!>" targets:<server.list_online_players.filter[has_permission[chat.tmod]]> format:WorldModFormat
+
+    }
+    else {
+
+    - flag <p@%player%> gmute:%activation% duration:%duration%
+    - ^narrate "<t[%activation%]:<yellow>%player% has been muted! <p@%player%.flag[gmute].expiration.formatted.replace[forever].with[Ongoing!]||Ongoing!>||<green>%player% has been unmuted!>" targets:<server.list_online_players.filter[has_permission[chat.tmod]]> format:WorldModFormat
+
+    }
   
   
 globalChatCommand:
@@ -449,17 +489,17 @@ globalChatOFFCommand:
     # ELSE (THEY HAVEN'T LEFT YET) {
       # LET THEM LEAVE AND TELL THEM }
   - if <player.flag[GlobalChatOff]||false> == true {
-    - narrate "<gold><&lb>Chat<&rb><dark_green> You have already left <white>global chat" targets:<player>
+    - narrate "<gold><&lb>Chat<&rb><dark_green> You have already left <white>Global Chat" targets:<player>
   }
   else {
-    - narrate "<gold><&lb>Chat<&rb> <dark_green>You have left <white>global chat" targets:<player>
+    - narrate "<gold><&lb>Chat<&rb> <dark_green>You have left <white>Global Chat" targets:<player>
     - flag <player> GlobalChatOff:true
   }
 
     # IF %PLAYER% WAS TALKING IN GLOBAL {
       # SWITCH THEM OUT TO LOCAL }
   - if <player.flag[ChatStatus]||local> == global {
-    - ^narrate "<gold><&lb>Chat<&rb><dark_green> You have been switched to <white>local"
+    - ^narrate "<gold><&lb>Chat<&rb><dark_green> You have been switched to <white>Local"
     - flag <player> ChatStatus:local
   }
 
@@ -567,7 +607,7 @@ SPYCommand:
   name: spy
   description: spy
   usage: /spy
-  permission: spy.permission.node
+  permission: chat.spy
   permission message: <gold>[Dev] <dark_red>Please add the '<gold><permission><dark_red>' permission node!
   allowed help:
   - determine <player.is_op||<context.server>>
